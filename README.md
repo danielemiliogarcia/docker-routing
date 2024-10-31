@@ -1,6 +1,6 @@
 # Simple network using docker, and a script that adds routes for routing to work
-
-┌────────────┐                   ┌─────────────┐                     ┌────────────┐ 
+```
+┌────────────┐                   ┌─────────────┐                     ┌────────────┐
 │   cont-a   │                   │ cont-router │                     │   cont-b   │
 └────────────┘                   └─────────────┘                     └────────────┘
       ├──────────────────────────────┼  .  ┼─────────────────────────────────┼
@@ -9,11 +9,11 @@
                                         .
               test-neta                 .                  test-netb
                                         .
-            172.155.0.0/16              .                172.166.0.0/16              
+            172.155.0.0/16              .                172.166.0.0/16
                                         .
-                                                                            
 
 
+```
 
 # How to run
 
@@ -33,7 +33,7 @@ docker-compose up
 
 # Cleanup
 
-## After using this, you should remove created networks, and containers 
+## After using this, you should remove created networks, and containers
 
 Remove containers and networks
 ```bash
