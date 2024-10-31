@@ -1,0 +1,66 @@
+version: '3'
+
+networks:
+  test-neta:
+      ipam:
+          driver: default  # will be bridge
+          config:
+              - subnet: 172.155.0.0/16
+  test-netb:
+      ipam:
+          driver: default  # will be bridge
+          config:
+              - subnet: 172.166.0.0/16
+
+services:
+
+  cont-a:
+    container_name: cont-a
+    image: ubuntu
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    # privileged: true # no need to run as privileged if you add just the needed cap
+    tty: true
+    command: /bin/bash -c 'apt update && apt install -y iputils-ping iproute2 net-tools traceroute nano && sleep infinity'
+    networks:
+      test-neta:
+        ipv4_address: 172.155.7.12
+
+  cont-router:
+    container_name: cont-router
+    image: ubuntu
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    # privileged: true # no need to run as privileged if you add just the needed cap
+    tty: true
+    command: /bin/bash -c 'apt update && apt install -y iputils-ping iproute2 net-tools traceroute nano && sleep infinity'
+    networks:
+      test-neta:
+        ipv4_address: 172.155.10.10
+      test-netb:
+        ipv4_address: 172.166.20.20
+
+  cont-b:
+    container_name: cont-b
+    image: ubuntu
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    # privileged: true # no need to run as privileged if you add just the needed cap
+    tty: true
+    command: /bin/bash -c 'apt update && apt install -y iputils-ping iproute2 net-tools traceroute nano && sleep infinity'
+    networks:
+      test-netb:
+        ipv4_address: 172.166.5.23
+
+
+
+
+
+# # in a exec
+# ip route add 172.166.0.0/16 via 172.155.10.10
+
+# # in b exec
+# ip route add 172.155.0.0/16 via 172.166.20.20
